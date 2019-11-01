@@ -16,5 +16,6 @@
             </wpf:CartesianChart.AxisX>
         </wpf:CartesianChart>
         <TextBox HorizontalAlignment="Left" Height="23" Margin="10,10,0,0" TextWrapping="Wrap" Text="{Binding N, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="120" />
+        <TextBlock HorizontalAlignment="Left" Margin="958,10,0,0" TextWrapping="Wrap" Text="{Binding SamplingRate, Mode=OneWay}" VerticalAlignment="Top" Width="50"/>
     </Grid>
 </Window>

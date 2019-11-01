@@ -14,7 +14,7 @@ namespace ConsoleApp
         static void Main(string[] args)
         {   
             stopwatch = new Stopwatch();
-            var receiver = new PortDataReceiver("COM5", 115200);
+            var receiver = new PortDataReceiver("COM9", 115200);
             receiver.DataReceived+= ReceiverOnDataReceived;             
             receiver.BeginReceive();
             stopwatch.Start();

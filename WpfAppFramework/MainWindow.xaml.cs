@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -20,6 +23,7 @@ using FFTStandart;
 using LiveCharts;
 using LiveCharts.Defaults;
 using LiveCharts.Wpf;
+using WpfAppFramework.Annotations;
 using Timer = System.Timers.Timer;
 
 namespace WpfAppFramework
@@ -27,14 +31,26 @@ namespace WpfAppFramework
     /// <summary>
     /// Логика взаимодействия для MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, INotifyPropertyChanged
     {
         public ChartValues<ObservableValue> Values { get; set; } = new ChartValues<ObservableValue>();
         private BlockingCollection<double> rawValues = new BlockingCollection<double>();
         private PortDataReceiver receiver;
 
         public int N { get; set; }
-        public int Samples = 1024;
+        public int Samples = 512;
+
+        public double SamplingRate
+        {
+            get { return _samplingRate; }
+            set
+            {
+                _samplingRate = value;
+                OnPropertyChanged(nameof(SamplingRate));
+            }
+        }
+
+        private double _samplingRate;
 
         public MainWindow()
         {
@@ -42,20 +58,18 @@ namespace WpfAppFramework
             DataContext = this;
 
             N = 1;
+            _samplingRate = 0;
+
             Chart.Series.Add(new ColumnSeries()
             {
                 Values = Values
             });
-            Chart.AxisY.Add(
-                new Axis
-                {
-                    //MaxValue = 50
-                });
+
             Chart.DisableAnimations = true;
-            Chart.DataTooltip = null;
+            //Chart.DataTooltip = null;
             Chart.AnimationsSpeed = TimeSpan.FromMilliseconds(0);
 
-            receiver = new PortDataReceiver("COM5", 115200);
+            receiver = new PortDataReceiver("COM9", 115200);
             receiver.DataReceived += ReceiverOnDataReceived;
             var th = new Thread(receiver.BeginReceive);
             th.Start();
@@ -65,26 +79,34 @@ namespace WpfAppFramework
 
         }
 
-        private void ReceiverOnDataReceived(string text)
+        private void ReceiverOnDataReceived(List<string> texts)
         {
             try
             {
-                var lastRNPos = text.LastIndexOf("\r\n", StringComparison.InvariantCulture);
-                if (lastRNPos != -1)
-                    text = text.Remove(lastRNPos);
-                var values = text.Trim().Split(new[] {"\r\n", "\r", "\n"}, StringSplitOptions.RemoveEmptyEntries);
-                foreach (var value in values)
+                var sampleRate = 0d;
+                foreach (var text in texts)
                 {
-                    rawValues.Add(int.Parse(value));
+                    var splittedText = text.Split(new[] {"\r\n"}, StringSplitOptions.RemoveEmptyEntries);
+                    Samples = int.Parse(splittedText[0], CultureInfo.InvariantCulture);
+                    sampleRate = double.Parse(splittedText[1], CultureInfo.InvariantCulture);
+                    var values = splittedText[2].Split(new[] {";"}, StringSplitOptions.RemoveEmptyEntries).Select(int.Parse);
+                    if (values.Count() < Samples)
+                        return;
+                    foreach (var value in values)
+                    {
+                        rawValues.Add(value);
+                    }
                 }
 
                 if (rawValues.Count >= Samples * N)
                 {
                     var spectrum = new double[Samples / 2 + 1];
+                    var frequencies = new double[Samples / 2 + 1];
+
                     for (int n = 0; n < N; n++)
                     {
                         var data = rawValues.Skip(n * Samples).Take(Samples).ToList();
-                        new FFTSpectre().GetSpectre(data, 1420, out var lspectr, out FreqSpan);
+                        new FFTSpectre().GetSpectre(data, sampleRate, out var lspectr, out frequencies);
                         for (int i = 0; i < lspectr.Length; i++)
                         {
                             spectrum[i] += lspectr[i] / N;
@@ -92,17 +114,19 @@ namespace WpfAppFramework
                     }
 
                     Spectrum = spectrum;
+                    FreqSpan = frequencies; 
+                    SamplingRate = sampleRate;
                     rawValues = new BlockingCollection<double>();
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message);
             }
         }
 
         private double[] FreqSpan;
-        public string[] Labels => FreqSpan?.Skip(1).Select(x=>x.ToString()).ToArray();
+        public List<string> Labels { get; set; } = new List<string>();
 
         public double[] Spectrum;
 
@@ -112,7 +136,17 @@ namespace WpfAppFramework
             {
                 Values.Clear();
                 Values.AddRange(Spectrum.Skip(1).Select(v => new ObservableValue(v)).ToList());
+                Labels.Clear();
+                Labels.AddRange(FreqSpan?.Skip(1).Select(x => x.ToString()).ToArray());
             }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
