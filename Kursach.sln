@@ -9,9 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleApp", "ConsoleApp\Co
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfAppFramework", "WpfAppFramework\WpfAppFramework.csproj", "{538CFDA1-FD24-4EE4-AC73-269B51A76E7D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataReceiverStandart", "DataReceiverStandart\DataReceiverStandart.csproj", "{4CF7DF59-9FDA-49C6-BBEF-9971A0B197A7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FFTStandart", "FFTStandart\FFTStandart.csproj", "{BA9D00B1-3993-43DE-B9BA-5F59BEE56000}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FFTStandart", "FFTStandart\FFTStandart.csproj", "{BA9D00B1-3993-43DE-B9BA-5F59BEE56000}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataReceiver", "DataReceiver\DataReceiver.csproj", "{C8CF8152-468D-4231-8733-DE43A0715F7A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,14 +31,14 @@ Global
 		{538CFDA1-FD24-4EE4-AC73-269B51A76E7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{538CFDA1-FD24-4EE4-AC73-269B51A76E7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{538CFDA1-FD24-4EE4-AC73-269B51A76E7D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4CF7DF59-9FDA-49C6-BBEF-9971A0B197A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4CF7DF59-9FDA-49C6-BBEF-9971A0B197A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4CF7DF59-9FDA-49C6-BBEF-9971A0B197A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4CF7DF59-9FDA-49C6-BBEF-9971A0B197A7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{BA9D00B1-3993-43DE-B9BA-5F59BEE56000}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{BA9D00B1-3993-43DE-B9BA-5F59BEE56000}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BA9D00B1-3993-43DE-B9BA-5F59BEE56000}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BA9D00B1-3993-43DE-B9BA-5F59BEE56000}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C8CF8152-468D-4231-8733-DE43A0715F7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C8CF8152-468D-4231-8733-DE43A0715F7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C8CF8152-468D-4231-8733-DE43A0715F7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C8CF8152-468D-4231-8733-DE43A0715F7A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -38,8 +38,8 @@
     <Reference Include="LiveCharts, Version=0.9.7.0, Culture=neutral, PublicKeyToken=0bc1f845d1ebb8df, processorArchitecture=MSIL">
       <HintPath>..\packages\LiveCharts.0.9.7\lib\net45\LiveCharts.dll</HintPath>
     </Reference>
-    <Reference Include="LiveCharts.Wpf">
-      <HintPath>C:\Users\panda\.nuget\packages\livecharts.wpf\0.9.7\lib\net45\LiveCharts.Wpf.dll</HintPath>
+    <Reference Include="LiveCharts.Wpf, Version=0.9.7.0, Culture=neutral, PublicKeyToken=0bc1f845d1ebb8df, processorArchitecture=MSIL">
+      <HintPath>..\packages\LiveCharts.Wpf.0.9.7\lib\net45\LiveCharts.Wpf.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -104,10 +104,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DataReceiverStandart\DataReceiverStandart.csproj">
-      <Project>{4CF7DF59-9FDA-49C6-BBEF-9971A0B197A7}</Project>
-      <Name>DataReceiverStandart</Name>
-    </ProjectReference>
     <ProjectReference Include="..\FFTStandart\FFTStandart.csproj">
       <Project>{BA9D00B1-3993-43DE-B9BA-5F59BEE56000}</Project>
       <Name>FFTStandart</Name>

@@ -8,7 +8,15 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
-        <wpf:CartesianChart x:Name="Chart"  Series="{Binding ChartData}" />
+        <wpf:CartesianChart x:Name="Chart" Margin="0,56,-0.4,0">
+            <wpf:CartesianChart.AxisX>
+                <wpf:AxesCollection>
+                    <wpf:Axis Labels="{Binding Labels}"></wpf:Axis>
+                </wpf:AxesCollection>
+            </wpf:CartesianChart.AxisX>
+        </wpf:CartesianChart>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="10,10,0,0" TextWrapping="Wrap" Text="{Binding N, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="120" />
+        <TextBlock HorizontalAlignment="Left" Margin="958,10,0,0" TextWrapping="Wrap" Text="{Binding SamplingRate, Mode=OneWay}" VerticalAlignment="Top" Width="50"/>
     </Grid>
 
 </Window>

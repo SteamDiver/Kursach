@@ -1,6 +1,6 @@
 #include<Wire.h>
 #define SamplesCount 512
-#define SampleRate 128
+#define SampleRate 1000
 
 const int MPU_addr = 0x68; // I2C address of the MPU-6050
 int16_t AcX, AcY, AcZ;
@@ -15,10 +15,10 @@ void setup() {
   Serial.begin(115200);
 }
 void loop() {
-  double loopTime = (double)1 / (double)SampleRate * 1000;
+  //double loopTime = (double)1 / (double)SampleRate * 1000;
   double t = (double)millis();
   for(int i=0; i<SamplesCount; i++){
-    double t1 = (double)millis();
+    //double t1 = (double)millis();
     Wire.beginTransmission(MPU_addr);
     Wire.write(0x3B);  // starting with register 0x3B (ACCEL_XOUT_H)
     Wire.endTransmission(false);
@@ -28,9 +28,9 @@ void loop() {
     AcZ = Wire.read() << 8 | Wire.read(); // 0x3F (ACCEL_ZOUT_H) & 0x40 (ACCEL_ZOUT_L)
     arr[i] = AcX + AcY + AcZ;
 
-    double del = loopTime - (double)millis() + t1;
+    //double del = loopTime - (double)millis() + t1;
    
-    delay(del);
+    //delay(del);
   }
   double sampleRate = ((double)SamplesCount / (double)(millis() - t)) * 1000;
   Serial.println("block");
